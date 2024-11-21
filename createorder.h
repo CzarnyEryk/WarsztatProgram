@@ -19,6 +19,7 @@ signals:
     void dataSubmit(const QString &marka, const QString &model, const QString &rok, const QString &poj, const QString &typ, const QString &vin,
                     const QString &rej, const QString &opis);
 private slots:
+    void putDataToDb();
     void on_pushButton_clicked();
 
 private:

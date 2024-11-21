@@ -1,7 +1,10 @@
 #include "mainwindow.h"
 #include "qsqlquery.h"
 #include "ui_mainwindow.h"
-
+#include "createorder.h"
+#include "showorder.h"
+#include "checkuserdata.h"
+#include "deleteaccount.h"
 
 MainWindow::MainWindow(QSqlDatabase db, int id, QString rola,QWidget *parent)
     : QMainWindow(parent)
@@ -23,7 +26,6 @@ MainWindow::MainWindow(QSqlDatabase db, int id, QString rola,QWidget *parent)
 
 MainWindow::~MainWindow()
 {
-
     delete ui;
 }
 
@@ -34,6 +36,7 @@ void MainWindow::openCreateDialog()
     createOrder->exec();
 }
 
+//pobranie danych z dialogu utwórz zlecenie i wrzucenie ich do bazy
 void MainWindow::getDataDialogUpploadDb(const QString &marka, const QString &model, const QString &rok, const QString &poj, const QString &typ, const QString &vin,
                    const QString &rej, const QString &opis)
 {
@@ -73,6 +76,51 @@ void MainWindow::on_createOrder_clicked()
     else
     {
         openCreateDialog();
+    }
+}
+
+
+void MainWindow::on_checkOrder_clicked()
+{
+    if (m_rola == "mechanik")
+    {
+
+    }
+
+    else
+    {
+        ShowOrder *showOrder = new ShowOrder(m_db, m_id, nullptr);
+        showOrder->show();
+    }
+}
+
+
+void MainWindow::on_checkData_clicked()
+{
+    if (m_rola == "mechanik")
+    {
+
+    }
+
+    else
+    {
+        CheckUserData *userDataWindow = new CheckUserData(m_db, m_id, nullptr);
+        userDataWindow->show();
+    }
+}
+
+
+void MainWindow::on_deleteAcount_clicked()
+{
+    if (m_rola == "mechanik")
+    {
+
+    }
+
+    else
+    {
+        DeleteAccount *deleteAccount = new DeleteAccount(m_db, m_id, nullptr);
+        deleteAccount->show();
     }
 }
 

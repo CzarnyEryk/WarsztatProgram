@@ -6,7 +6,7 @@
 #include <QSqlDatabase>
 #include <QMessageBox>
 #include <QSqlError>
-#include "createorder.h"
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -27,6 +27,12 @@ private slots:
     void openCreateDialog();
     void getDataDialogUpploadDb(const QString &marka, const QString &model, const QString &rok, const QString &poj, const QString &typ, const QString &vin,
                        const QString &rej, const QString &opis);
+
+    void on_checkOrder_clicked();
+
+    void on_checkData_clicked();
+
+    void on_deleteAcount_clicked();
 
 private:
     Ui::MainWindow *ui;

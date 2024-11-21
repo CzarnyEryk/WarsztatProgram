@@ -9,20 +9,29 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    checkuserdata.cpp \
     createorder.cpp \
+    deleteaccount.cpp \
     login.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    showorder.cpp
 
 HEADERS += \
+    checkuserdata.h \
     createorder.h \
+    deleteaccount.h \
     login.h \
-    mainwindow.h
+    mainwindow.h \
+    showorder.h
 
 FORMS += \
+    checkuserdata.ui \
     createorder.ui \
+    deleteaccount.ui \
     login.ui \
-    mainwindow.ui
+    mainwindow.ui \
+    showorder.ui
 
 TRANSLATIONS += \
     Warsztat_pl_PL.ts

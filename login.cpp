@@ -156,6 +156,7 @@ void Login::configDatabase()
             else
             {
                 QMessageBox::warning(this, "Error", "Błąd bazy danych");
+                qDebug() << "Brak roli w bazie";
                 db.removeDatabase("QMYSQL");
                 QCoreApplication::quit();
             }

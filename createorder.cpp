@@ -6,6 +6,9 @@ CreateOrder::CreateOrder(QWidget *parent)
     , ui(new Ui::CreateOrder)
 {
     ui->setupUi(this);
+    ui->year_input->setInputMask("99.99.9999;_");
+    ui->year_input->setMaxLength(10);
+    ui->year_input->setCursorPosition(0);
 }
 
 
@@ -14,16 +17,18 @@ CreateOrder::~CreateOrder()
     delete ui;
 }
 
-void CreateOrder::on_pushButton_clicked()
+
+//funkcja do wrzucania danych do bazy
+void CreateOrder::putDataToDb()
 {
     //pobranie danych z pól
-    QString mark = ui->mark_input->text();
-    QString model = ui->model_input->text();
-    QString year = ui->year_input->text();
-    QString volume = ui->volume_engine->text();
-    QString type = ui->type_input->currentText();
-    QString vin = ui->vin_input->text();
-    QString rej = ui->rej_input->text();
+    QString mark = ui->mark_input->text().toUpper();
+    QString model = ui->model_input->text().toUpper();
+    QString year = ui->year_input->text().toUpper();
+    QString volume = ui->volume_engine->text().toUpper();
+    QString type = ui->type_input->currentText().toUpper();
+    QString vin = ui->vin_input->text().toUpper();
+    QString rej = ui->rej_input->text().toUpper();
     QString desc = ui->desc_input->text();
 
     //zaznaczenie pustych pól
@@ -48,20 +53,19 @@ void CreateOrder::on_pushButton_clicked()
 
     //sprawdzenie czy któreś pole nie jest puste
     if ( mark.isEmpty() || model.isEmpty() || year.isEmpty() || volume.isEmpty() || type.isEmpty() ||
-         vin.isEmpty() || desc.isEmpty() )
+        vin.isEmpty() || desc.isEmpty() )
     {
         ui->empty_data_label->setStyleSheet("color: red");
         ui->empty_data_label->setText("Czerwone pola nie mogą być puste !!!");
     }
     else
     {
-        qDebug() << "Emit data wartośc model:  " + model;
         emit dataSubmit(mark, model, year, volume, type, vin, rej, desc);
         accept();
     }
-
-
-
-
+}
+void CreateOrder::on_pushButton_clicked()
+{
+    putDataToDb();
 }
 
