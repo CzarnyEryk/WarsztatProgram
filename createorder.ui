@@ -6,276 +6,294 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>484</width>
-    <height>347</height>
+    <width>500</width>
+    <height>340</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>500</width>
+    <height>300</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>500</width>
+    <height>340</height>
+   </size>
+  </property>
+  <property name="focusPolicy">
+   <enum>Qt::FocusPolicy::NoFocus</enum>
+  </property>
+  <property name="contextMenuPolicy">
+   <enum>Qt::ContextMenuPolicy::ActionsContextMenu</enum>
   </property>
   <property name="windowTitle">
    <string>Utwórz zlecenie</string>
   </property>
-  <widget class="QWidget" name="layoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>461</width>
-     <height>321</height>
-    </rect>
-   </property>
-   <layout class="QHBoxLayout" name="horizontalLayout_9">
-    <property name="spacing">
-     <number>5</number>
-    </property>
-    <property name="leftMargin">
-     <number>5</number>
-    </property>
-    <property name="topMargin">
-     <number>5</number>
-    </property>
-    <property name="rightMargin">
-     <number>5</number>
-    </property>
-    <property name="bottomMargin">
-     <number>5</number>
-    </property>
-    <item>
-     <layout class="QVBoxLayout" name="verticalLayout">
-      <item>
-       <widget class="QLabel" name="empty_data_label">
-        <property name="font">
-         <font>
-          <pointsize>14</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>Wprowadź wszystkie dane:</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout">
-        <item>
-         <widget class="QLabel" name="mark_label">
-          <property name="font">
-           <font>
-            <pointsize>14</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>Marka</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLineEdit" name="mark_input"/>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_2">
-        <item>
-         <widget class="QLabel" name="model_label">
-          <property name="font">
-           <font>
-            <pointsize>14</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>Model</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLineEdit" name="model_input"/>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_3">
-        <item>
-         <widget class="QLabel" name="year_label">
-          <property name="font">
-           <font>
-            <pointsize>14</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>Rok Produkcji</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLineEdit" name="year_input"/>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_4">
-        <item>
-         <widget class="QLabel" name="volume_label">
-          <property name="font">
-           <font>
-            <pointsize>14</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>Pojemność Silnika</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLineEdit" name="volume_engine"/>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_5">
-        <item>
-         <widget class="QLabel" name="type_label">
-          <property name="font">
-           <font>
-            <pointsize>14</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>Typ Silnika</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QComboBox" name="type_input">
-          <property name="font">
-           <font>
-            <pointsize>14</pointsize>
-           </font>
-          </property>
-          <item>
-           <property name="text">
-            <string>DIESEL</string>
+  <property name="windowIcon">
+   <iconset theme="QIcon::ThemeIcon::InputKeyboard"/>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <layout class="QHBoxLayout" name="horizontalLayout_9">
+     <property name="spacing">
+      <number>5</number>
+     </property>
+     <property name="leftMargin">
+      <number>5</number>
+     </property>
+     <property name="topMargin">
+      <number>5</number>
+     </property>
+     <property name="rightMargin">
+      <number>5</number>
+     </property>
+     <property name="bottomMargin">
+      <number>5</number>
+     </property>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QLabel" name="empty_data_label">
+         <property name="font">
+          <font>
+           <pointsize>14</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>Wprowadź wszystkie dane:</string>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
+          <widget class="QLabel" name="mark_label">
+           <property name="font">
+            <font>
+             <pointsize>14</pointsize>
+            </font>
            </property>
-          </item>
-          <item>
            <property name="text">
-            <string>BENZYNA</string>
+            <string>Marka</string>
            </property>
-          </item>
-          <item>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="mark_input"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <widget class="QLabel" name="model_label">
+           <property name="font">
+            <font>
+             <pointsize>14</pointsize>
+            </font>
+           </property>
            <property name="text">
-            <string>LPG</string>
+            <string>Model</string>
            </property>
-          </item>
-          <item>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="model_input"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <item>
+          <widget class="QLabel" name="year_label">
+           <property name="font">
+            <font>
+             <pointsize>14</pointsize>
+            </font>
+           </property>
            <property name="text">
-            <string>ELEKTRYCZNY</string>
+            <string>Rok Produkcji</string>
            </property>
-          </item>
-          <item>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="year_input"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <item>
+          <widget class="QLabel" name="volume_label">
+           <property name="font">
+            <font>
+             <pointsize>14</pointsize>
+            </font>
+           </property>
            <property name="text">
-            <string>HYBRYDA</string>
+            <string>Pojemność Silnika</string>
            </property>
-          </item>
-         </widget>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_6">
-        <item>
-         <widget class="QLabel" name="vin_label">
-          <property name="font">
-           <font>
-            <pointsize>14</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>Vin</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLineEdit" name="vin_input"/>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_7">
-        <item>
-         <widget class="QLabel" name="rej_label">
-          <property name="font">
-           <font>
-            <pointsize>14</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>Nr rejestracyjny</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLineEdit" name="rej_input"/>
-        </item>
-       </layout>
-      </item>
-      <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_8">
-        <item>
-         <widget class="QLabel" name="desc_label">
-          <property name="minimumSize">
-           <size>
-            <width>10</width>
-            <height>0</height>
-           </size>
-          </property>
-          <property name="font">
-           <font>
-            <pointsize>14</pointsize>
-           </font>
-          </property>
-          <property name="text">
-           <string>Opis</string>
-          </property>
-         </widget>
-        </item>
-        <item>
-         <widget class="QLineEdit" name="desc_input">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
-          <property name="minimumSize">
-           <size>
-            <width>210</width>
-            <height>10</height>
-           </size>
-          </property>
-          <property name="maximumSize">
-           <size>
-            <width>210</width>
-            <height>21</height>
-           </size>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </item>
-     </layout>
-    </item>
-    <item>
-     <widget class="QPushButton" name="pushButton">
-      <property name="font">
-       <font>
-        <pointsize>16</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>UTWÓRZ</string>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="volume_engine"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_5">
+         <item>
+          <widget class="QLabel" name="type_label">
+           <property name="font">
+            <font>
+             <pointsize>14</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Typ Silnika</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="type_input">
+           <property name="font">
+            <font>
+             <pointsize>14</pointsize>
+            </font>
+           </property>
+           <item>
+            <property name="text">
+             <string>DIESEL</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>BENZYNA</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>LPG</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>ELEKTRYCZNY</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>HYBRYDA</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_6">
+         <item>
+          <widget class="QLabel" name="vin_label">
+           <property name="font">
+            <font>
+             <pointsize>14</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Vin</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="vin_input"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_7">
+         <item>
+          <widget class="QLabel" name="rej_label">
+           <property name="font">
+            <font>
+             <pointsize>14</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Nr rejestracyjny</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="rej_input"/>
+         </item>
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_8">
+         <item>
+          <widget class="QLabel" name="desc_label">
+           <property name="minimumSize">
+            <size>
+             <width>10</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="font">
+            <font>
+             <pointsize>14</pointsize>
+            </font>
+           </property>
+           <property name="text">
+            <string>Opis</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="desc_input">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>210</width>
+             <height>10</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>210</width>
+             <height>21</height>
+            </size>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButton">
+       <property name="font">
+        <font>
+         <pointsize>16</pointsize>
+        </font>
+       </property>
+       <property name="text">
+        <string>UTWÓRZ</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
  </widget>
  <tabstops>
   <tabstop>mark_input</tabstop>

@@ -6,63 +6,65 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>311</width>
-    <height>320</height>
+    <width>190</width>
+    <height>110</height>
    </rect>
   </property>
-  <property name="windowTitle">
-   <string>Usuwanie Konta</string>
+  <property name="minimumSize">
+   <size>
+    <width>190</width>
+    <height>110</height>
+   </size>
   </property>
-  <widget class="QDialogButtonBox" name="buttonBox">
-   <property name="geometry">
-    <rect>
-     <x>80</x>
-     <y>180</y>
-     <width>166</width>
-     <height>24</height>
-    </rect>
-   </property>
-   <property name="orientation">
-    <enum>Qt::Orientation::Horizontal</enum>
-   </property>
-   <property name="standardButtons">
-    <set>QDialogButtonBox::StandardButton::Cancel|QDialogButtonBox::StandardButton::Ok</set>
-   </property>
-  </widget>
-  <widget class="QWidget" name="layoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>70</x>
-     <y>80</y>
-     <width>165</width>
-     <height>60</height>
-    </rect>
-   </property>
-   <layout class="QVBoxLayout" name="verticalLayout">
-    <item>
-     <widget class="QLabel" name="label">
-      <property name="font">
-       <font>
-        <pointsize>16</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>Wprowadź Hasło:</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QLineEdit" name="password_input">
-      <property name="inputMask">
-       <string/>
-      </property>
-      <property name="cursorPosition">
-       <number>0</number>
-      </property>
-     </widget>
-    </item>
-   </layout>
-  </widget>
+  <property name="maximumSize">
+   <size>
+    <width>190</width>
+    <height>110</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>Usuń Konto</string>
+  </property>
+  <property name="windowIcon">
+   <iconset theme="QIcon::ThemeIcon::EditDelete"/>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="2" column="0">
+    <widget class="QLabel" name="label">
+     <property name="font">
+      <font>
+       <pointsize>16</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Wprowadź Hasło:</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="0">
+    <widget class="QLineEdit" name="password_input">
+     <property name="inputMask">
+      <string/>
+     </property>
+     <property name="echoMode">
+      <enum>QLineEdit::EchoMode::Password</enum>
+     </property>
+     <property name="cursorPosition">
+      <number>0</number>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="0" alignment="">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Orientation::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::StandardButton::Cancel|QDialogButtonBox::StandardButton::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
  </widget>
  <resources/>
  <connections>

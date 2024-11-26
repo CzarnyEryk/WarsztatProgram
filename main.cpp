@@ -1,4 +1,4 @@
-#include "mainwindow.h"
+//główna funkcja programu
 #include "login.h"
 #include <QApplication>
 #include <QLocale>
@@ -19,6 +19,5 @@ int main(int argc, char *argv[])
     }
     Login l;
     l.show();
-
     return a.exec();
 }

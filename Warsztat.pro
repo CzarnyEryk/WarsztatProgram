@@ -12,6 +12,7 @@ SOURCES += \
     checkuserdata.cpp \
     createorder.cpp \
     deleteaccount.cpp \
+    editorders.cpp \
     login.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -21,6 +22,7 @@ HEADERS += \
     checkuserdata.h \
     createorder.h \
     deleteaccount.h \
+    editorders.h \
     login.h \
     mainwindow.h \
     showorder.h
@@ -29,6 +31,7 @@ FORMS += \
     checkuserdata.ui \
     createorder.ui \
     deleteaccount.ui \
+    editorders.ui \
     login.ui \
     mainwindow.ui \
     showorder.ui

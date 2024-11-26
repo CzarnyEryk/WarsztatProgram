@@ -34,6 +34,8 @@ private slots:
 
     void on_deleteAcount_clicked();
 
+    void on_logout_clicked();
+
 private:
     Ui::MainWindow *ui;
 

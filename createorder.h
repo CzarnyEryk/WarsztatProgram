@@ -2,6 +2,7 @@
 #define CREATEORDER_H
 
 #include <QDialog>
+#include <QRegularExpressionValidator>
 
 namespace Ui {
 class CreateOrder;

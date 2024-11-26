@@ -1,3 +1,4 @@
+//okno służące do logowania się do aplikacji
 #include "login.h"
 #include "ui_login.h"
 
@@ -13,6 +14,7 @@ Login::~Login()
     delete ui;
 }
 
+//konfiguracja danych bazy
 void Login::configDatabase()
 {
     //ścieżka do pliku z konfiguracją bazy danych
@@ -24,9 +26,10 @@ void Login::configDatabase()
     //sprawdzenie czy plik działa
     if (!fileConfigDb.open(QIODevice::ReadOnly | QIODevice::Text))
     {
-        QMessageBox::critical(this, "Error", "Brak Pliku \n" + fileConfigDb.errorString());
+        QMessageBox::critical(this, "Błąd", "Brak Pliku \n" + fileConfigDb.errorString());
         QCoreApplication::quit();
     }
+
 
     //kontener słownikowy do konfiguracji
     QMap<QString, QString> configData;
@@ -34,6 +37,7 @@ void Login::configDatabase()
     QTextStream in (&fileConfigDb);
     while (!in.atEnd())
     {
+        //pobranie pary danych
         QString line = in.readLine();
         QStringList parts = line.split("=");
 
@@ -43,21 +47,25 @@ void Login::configDatabase()
             QString key = parts[0].trimmed();
             QString value = parts[1].trimmed();
             configData.insert(key,value);
-        }else
+        }
+        //obsłużenie błędu konfiguracji pliku
+        else
         {
-            QMessageBox::warning(this, "Ostrzeżenie", "Nieprawidłowy format pliku konfiguracyjnego \n" + line);
+            QMessageBox::warning(this, "Błąd", "Nieprawidłowy format pliku konfiguracyjnego \n" + line);
             QCoreApplication::quit();
         }
 
     }
+
+    //zamknięcie pliku
     fileConfigDb.close();
 
 
-    //obsługa bazy d
+    //pobranie loginu oraz hasła do bazy danych
     QString login = ui->email_input->text();
     QString password = ui->password_input->text();
 
-
+    //dodanie drivera do obsługi mysql
     QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
 
 
@@ -65,65 +73,81 @@ void Login::configDatabase()
     //sprawdzenie przesłania danych z formularza logowania
     if(login.isEmpty() || password.isEmpty())
     {
-        QMessageBox::warning(this, "Warning", "Wprowadź dane logowania");
+        QMessageBox::warning(this, "Ostrzeżenie", "Wprowadź dane logowania");
     }
 
     //sprawdzenie czy posiadamy adress hosta
     if(configData.contains("hostAddress"))
     {
+        //przypisanie adresu hosta do bazy danych
         QString hostAddress = configData["hostAddress"];
         db.setHostName(hostAddress);
-    }else
+    }
+    //obsługa błędu braku hosta
+    else
     {
-        QMessageBox::critical(this, "Error", "Brak adresu hosta w pliku konfiguracyjnym");
+        QMessageBox::critical(this, "Błąd", "Brak adresu hosta w pliku konfiguracyjnym");
         QCoreApplication::quit();
     }
 
     //sprawdzenie czy posiadamy user name
     if(configData.contains("user"))
     {
+        //przypisanie użytkownika do konfiguracji bazy danych
         QString dbUser = configData["user"];
         db.setUserName(dbUser);
-    }else
+    }
+    //obsługa błędu braku nazwy użytkownika
+    else
     {
-        QMessageBox::critical(this, "Warning", "Brak użytkownika bazy danych w pliku konfiguracyjnym");
+        QMessageBox::critical(this, "Błąd", "Brak użytkownika bazy danych w pliku konfiguracyjnym");
         QCoreApplication::quit();
     }
 
     //sprawdzenie czy posiadamy user password
     if (configData.contains("password"))
     {
+        //przypisanie hasła do bazy danych
         QString dbPassword = configData["password"];
         db.setPassword(dbPassword);
     }
+    //obsługa błędu braku hasła
     else
     {
-        QMessageBox::critical(this, "Warning", "Brak hasła do bazy danych pliku konfiguracyjnym");
+        QMessageBox::critical(this, "Błąd", "Brak hasła do bazy danych pliku konfiguracyjnym");
         QCoreApplication::quit();
     }
 
     //sprawdzenie czy posiadamy nazwę bazy
     if (configData.contains("dbName"))
     {
+        //przypisanie nazwy bazy do bazy
         QString dbName = configData["dbName"];
         db.setDatabaseName(dbName);
 
-    }else
+    }
+    //obsługa błędu braku nazwy bazy danych
+    else
     {
-        QMessageBox::critical(this, "Warning", "Brak nazwy bazy w pliku konfiguracyjnym");
+        QMessageBox::critical(this, "Błąd", "Brak nazwy bazy w pliku konfiguracyjnym");
         QCoreApplication::quit();
     }
 
-    //obsługa otwarcia bazy danych
+    //połączenie z bazą danych i autentykacja
+
+    //obsługa błędu otwarcia bazy danych
     if(!db.open())
     {
-        QMessageBox::critical(this, "Error", "Błąd połączenia z bazą" + db.lastError().text());
+        QMessageBox::critical(this, "Error", "Błąd połączenia z bazą \n" + db.lastError().text());
         QCoreApplication::quit();
     }
+
 
     //pobranie roli oraz id użytkownika
     QSqlQuery zapytanie;
     zapytanie.prepare("SELECT id, rola FROM uzytkownicy WHERE e_mail= :login AND haslo= :password");
+
+    //podmiana danych na przekazane zmienne
     zapytanie.bindValue(":login", login);
     zapytanie.bindValue(":password", password);
 
@@ -139,14 +163,18 @@ void Login::configDatabase()
 
             //sprawdzenie czy użytkownik jest klientem
             if(rola == "klient"){
-                QMessageBox::information(this, "Status", "Zalogowano jako klient");
+                QMessageBox::information(this, "Informacja", "Zalogowano jako klient");
+
+                //otwarice okna z przekazaniem danych z bazy
                 MainWindow *mainWindow = new MainWindow(db, id, rola, nullptr);
                 mainWindow->show();
                 this->close();
 
             //sprawdzenie czy użytkownik jest mechanikiem
             }else if(rola == "mechanik"){
-                QMessageBox::information(this, "Status", "Zalogowano jako mechanik");
+                QMessageBox::information(this, "Informacja", "Zalogowano jako mechanik");
+
+                //otwarcie okna z przekazaniem danych z bazy
                 MainWindow *mainWindow = new MainWindow(db, id, rola, nullptr);
                 mainWindow->show();
                 this->close();
@@ -155,14 +183,13 @@ void Login::configDatabase()
             //brak użytkownika o podanej roli
             else
             {
-                QMessageBox::warning(this, "Error", "Błąd bazy danych");
-                qDebug() << "Brak roli w bazie";
+                QMessageBox::warning(this, "Błąd", "Błąd bazy danych \n Brak użytkownika w bazie o podanej roli");
                 db.removeDatabase("QMYSQL");
                 QCoreApplication::quit();
             }
         }
 
-        //brak użytkownika w bazie danych
+        //błędne dane podane podczas logowania lub brak takiego użytkownika
         else
         {
             QMessageBox::warning(this, "Warning", "Błędne dane");
@@ -172,14 +199,14 @@ void Login::configDatabase()
     //błąd wewnętrzny bazy
     else
     {
-        QMessageBox::critical(this, "Error", "Błąd zapytania Mysql" + zapytanie.lastError().text());
+        QMessageBox::critical(this, "Błąd", "Błąd zapytania Mysql \n" + zapytanie.lastError().text());
         db.removeDatabase("QMYSQL");
         QCoreApplication::quit();
     }
 }
 
 
-
+//obsługa kliknięcia przycisku logowania
 void Login::on_pushButton_clicked()
 {
     configDatabase();

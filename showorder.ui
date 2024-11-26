@@ -6,41 +6,73 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>602</width>
-    <height>329</height>
+    <width>466</width>
+    <height>122</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+    <horstretch>1</horstretch>
+    <verstretch>1</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>466</width>
+    <height>122</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Zlecenia</string>
   </property>
-  <widget class="QTableView" name="order_view">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>70</y>
-     <width>581</width>
-     <height>251</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QLabel" name="label">
-   <property name="geometry">
-    <rect>
-     <x>240</x>
-     <y>20</y>
-     <width>141</width>
-     <height>31</height>
-    </rect>
-   </property>
-   <property name="font">
-    <font>
-     <pointsize>16</pointsize>
-    </font>
-   </property>
-   <property name="text">
-    <string>Twoje Zlecenia</string>
-   </property>
-  </widget>
+  <property name="windowIcon">
+   <iconset theme="QIcon::ThemeIcon::EditFind"/>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QLabel" name="label">
+     <property name="font">
+      <font>
+       <pointsize>16</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Twoje Zlecenia</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignmentFlag::AlignCenter</set>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QTableView" name="order_view">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+       <horstretch>10</horstretch>
+       <verstretch>10</verstretch>
+      </sizepolicy>
+     </property>
+     <property name="sizeAdjustPolicy">
+      <enum>QAbstractScrollArea::SizeAdjustPolicy::AdjustToContents</enum>
+     </property>
+     <property name="editTriggers">
+      <set>QAbstractItemView::EditTrigger::NoEditTriggers</set>
+     </property>
+     <property name="sortingEnabled">
+      <bool>true</bool>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+     <property name="cornerButtonEnabled">
+      <bool>false</bool>
+     </property>
+     <attribute name="horizontalHeaderCascadingSectionResizes">
+      <bool>true</bool>
+     </attribute>
+    </widget>
+   </item>
+  </layout>
  </widget>
  <resources/>
  <connections/>

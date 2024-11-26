@@ -1,3 +1,4 @@
+//okno służące do usunięcia konta
 #include "deleteaccount.h"
 #include "ui_deleteaccount.h"
 
@@ -18,6 +19,7 @@ DeleteAccount::~DeleteAccount()
 //usunięcie konta użytkownika
 void DeleteAccount::on_buttonBox_accepted()
 {
+    //pobranie hasła z pola Hasło
     QString userInputPassword = ui->password_input->text();
     QSqlQuery zapytanie;
     zapytanie.prepare("SELECT haslo FROM uzytkownicy WHERE id= :id");
@@ -35,30 +37,38 @@ void DeleteAccount::on_buttonBox_accepted()
             //sprawdzenie zgodności haseł
             if(userInputPassword == passwordUser)
             {
+                //stworzenie zapytania które usunie konto
                 zapytanie.prepare("DELETE from uzytkownicy WHERE id= :id");
                 zapytanie.bindValue(":id", m_id);
 
+                //pozytywne usunięcie konta
                 if(zapytanie.exec())
                 {
-                     QMessageBox::information(this, "Info", "Konto usunięte");
+                    //informacja zwrotna na temat konta oraz zamknięcie aplikacji
+                    QMessageBox::information(this, "Info", "Konto usunięte");
                     QCoreApplication::quit();
                 }
+                //obsługa błędu zapytania w ramach usunięcia konta
                 else
                 {
-                    QMessageBox::critical(this, "Error", "Błąd aplikacji");
-                    qDebug() << "Bład przy usuwaniu konta wykonanie zapytania delete";
-                    qDebug() << zapytanie.lastError().text();
+                    //informacja o błędzie i zamknięcie aplikacji
+                    QMessageBox::critical(this, "Błąd", "Błąd aplikacji \n" + zapytanie.lastError().text());
                 }
 
-            }else
+            }
+            //obsługa złego hasła
+            else
             {
-                QMessageBox::information(this, "Info", "Błędne hasło");
+                QMessageBox::information(this, "Informacja", "Błędne hasło");
             }
         }
-    }else
+    }
+    //obsługa błędu
+    else
 
     {
-        QMessageBox::critical(this, "Error", "Błąd Aplikacji");
+        //zamknięcie aplikacji z powodu błedu
+        QMessageBox::critical(this, "Błąd", "Błąd Aplikacji");
         QCoreApplication::quit();
     }
 
@@ -69,6 +79,6 @@ void DeleteAccount::on_buttonBox_accepted()
 //anulowanie usunięcia konta
 void DeleteAccount::on_buttonBox_rejected()
 {
-    QMessageBox::information(this, "test", "NIE");
+    QMessageBox::information(this, "Informacja", "Anulowano usunięcie konta");
 }
 

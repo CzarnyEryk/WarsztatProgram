@@ -1,0 +1,4 @@
+user=eryk
+password=Serwer
+hostAddress==192.168.1.875
+dbName=warsztat
