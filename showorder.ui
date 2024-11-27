@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>466</width>
-    <height>122</height>
+    <width>650</width>
+    <height>200</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -18,8 +18,8 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>466</width>
-    <height>122</height>
+    <width>600</width>
+    <height>100</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -51,6 +51,12 @@
        <horstretch>10</horstretch>
        <verstretch>10</verstretch>
       </sizepolicy>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>400</width>
+       <height>100</height>
+      </size>
      </property>
      <property name="sizeAdjustPolicy">
       <enum>QAbstractScrollArea::SizeAdjustPolicy::AdjustToContents</enum>

@@ -49,7 +49,8 @@ void EditOrders::ShowOrderInfo(int id)
     //wyświetlenie danych
     ui->orderInfoTableView->setModel(model);
     //dostosowanie rozmiaru do okna
-    ui->orderInfoTableView->resizeColumnsToContents();
+    int lastColumnIndex = ui->orderInfoTableView->model()->columnCount() - 1; // Ostatnia kolumna
+    ui->orderInfoTableView->horizontalHeader()->setSectionResizeMode(lastColumnIndex, QHeaderView::Stretch);
 }
 
 //pobranie informacji o id które jest w dostępnych zleceniach

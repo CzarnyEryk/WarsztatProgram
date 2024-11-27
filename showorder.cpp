@@ -31,7 +31,9 @@ void ShowOrder::ShowDataClient()
     //wyświetlenie danych
     ui->order_view->setModel(model);
     //dynamiczna zmiana rozmiaru kolumn
-    ui->order_view->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    ui->order_view->resizeColumnsToContents();
+    int lastColumnIndex = ui->order_view->model()->columnCount() - 1; // Ostatnia kolumna
+    ui->order_view->horizontalHeader()->setSectionResizeMode(lastColumnIndex, QHeaderView::Stretch);
 
 }
 
@@ -68,7 +70,10 @@ void ShowOrder::ShowDataMechanik()
     //wyświetlenie danych
     ui->order_view->setModel(model);
     //dynamiczna zmiana rozmiaru kolumn
-    ui->order_view->horizontalHeader()->setSectionResizeMode(QHeaderView::Stretch);
+    ui->order_view->resizeColumnsToContents();
+    int lastColumnIndex = ui->order_view->model()->columnCount() - 1; // Ostatnia kolumna
+    ui->order_view->horizontalHeader()->setSectionResizeMode(lastColumnIndex, QHeaderView::Stretch);
+
 }
 
 
