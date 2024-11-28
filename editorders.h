@@ -8,7 +8,7 @@
 #include <QSqlError>
 #include <QSqlQueryModel>
 #include <QMessageBox>
-
+#include <QDoubleValidator>
 namespace Ui {
 class EditOrders;
 }

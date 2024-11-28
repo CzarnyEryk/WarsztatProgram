@@ -8,6 +8,8 @@
 #include <QSqlError>
 #include <QSqlTableModel>
 #include <QMessageBox>
+#include <QSortFilterProxyModel>
+#include <QRegularExpression>
 
 namespace Ui {
 class ShowOrder;
@@ -28,11 +30,15 @@ private slots:
     //funkcja do wyświetlenia wszystkich zleceń Panel Mechanika
     void ShowDataMechanik();
 
+    void on_useFilter_button_clicked();
+
 private:
     QSqlDatabase m_db;
     int m_id;
     QString m_rola;
     Ui::ShowOrder *ui;
+    QSqlQueryModel *model;
+    QSortFilterProxyModel *proxyModel;
 };
 
 #endif // SHOWORDER_H
