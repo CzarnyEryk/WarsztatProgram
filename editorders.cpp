@@ -10,6 +10,8 @@ EditOrders::EditOrders(QSqlDatabase db, QWidget *parent)
 {
     ui->setupUi(this);
     ChangeOrderStatus();
+
+    //ustawienie maski do wprowadzania ceny
     ui->priceInput->setInputMask("99999.99");
 }
 
@@ -25,6 +27,7 @@ void EditOrders::ShowOrderInfo(int id)
     QSqlQuery zapytanie(m_db);
     QSqlQueryModel *model = new QSqlQueryModel();
     zapytanie.prepare("SELECT id, status, cena, marka, model, pojemnosc_silnika, typ_silnika, nr_rejestracyjny, opis FROM zlecenia WHERE id =:id");
+
     //podmiana danych na zmienne
     zapytanie.bindValue(":id", id);
 
@@ -35,7 +38,7 @@ void EditOrders::ShowOrderInfo(int id)
     }
 
     //przekazanie własności obiektu model do zaptania
-    model->setQuery(std::move(zapytanie));
+    model->setQuery(zapytanie);
 
     //ustawienie nagłówków tabelii
     model->setHeaderData(0, Qt::Horizontal, "ID:");
@@ -50,8 +53,10 @@ void EditOrders::ShowOrderInfo(int id)
 
     //wyświetlenie danych
     ui->orderInfoTableView->setModel(model);
-    //dostosowanie rozmiaru do okna
-    int lastColumnIndex = ui->orderInfoTableView->model()->columnCount() - 2; // Ostatnia kolumna
+
+    //ustawienie ruchomej kolumny -1 ostatnia kolumna
+    int lastColumnIndex = ui->orderInfoTableView->model()->columnCount() - 2;
+    //dynamiczne dostosowanie rozmiaru do rozmiaru okna
     ui->orderInfoTableView->horizontalHeader()->setSectionResizeMode(lastColumnIndex, QHeaderView::Stretch);
 }
 
@@ -79,7 +84,7 @@ void EditOrders::ChangeOrderStatus()
 
     }
 
-    //wyświetlenie danych o aktualnei wybranym zamówieniu
+    //wyświetlenie danych o aktualnie wybranym zamówieniu
     int actual_id = ui->id_comboBox->currentText().toInt();
     ShowOrderInfo(actual_id);
 
@@ -106,23 +111,31 @@ void EditOrders::on_changeStatus_button_clicked()
     //pobranie id użytkownika
     int actual_id = ui->id_comboBox->currentData().toInt();
 
+    //zmiana statusu zamóweinia
+    //sprawdzenie czy znacznik zmiany statusu i ceny jest zaznaczony
     if (ui->statusChange->isChecked() and ui->priceChange->isChecked() )
     {
+        //pobranie statusu zamówienia z pola wyboru
         QString status = ui->status_comboBox->currentText();
+
+        //pobreanie ceny z pola UI
         double cena = ui->priceInput->text().toDouble();
 
+        //wykonanie zamówienia zmieniającego status oraz cenę
         QSqlQuery zapytanie(m_db);
         zapytanie.prepare("UPDATE zlecenia SET status =:status, cena =:cena WHERE id =:id");
         zapytanie.bindValue(":status", status);
         zapytanie.bindValue(":cena", cena);
         zapytanie.bindValue(":id", actual_id);
 
+        //obsługa błędu zapytania
         if (!zapytanie.exec())
         {
-            QMessageBox::information(this, "Błąd", "Bład zmiany statusu" + zapytanie.lastError().text());
+            QMessageBox::information(this, "Błąd", "Bład zmiany statusu oraz ceny zlecenia" + zapytanie.lastError().text());
             return;
         }
 
+        //informacja o wykonaniu zmiany
         QMessageBox::information(this, "Informacja", "Poprawnie zmieniono status zlecenia oraz cene");
         return;
     }
@@ -130,19 +143,23 @@ void EditOrders::on_changeStatus_button_clicked()
     //zmiana statusu
     if (ui->statusChange->isChecked())
     {
+        //pobranie danych na temat statusu z pola wyboru
         QString status = ui->status_comboBox->currentText();
-        QSqlQuery zapytanie(m_db);
 
+        //wykonanie zapytania do bazy w celu zmiany statusu
+        QSqlQuery zapytanie(m_db);
         zapytanie.prepare("UPDATE zlecenia SET status =:status WHERE id =:id");
         zapytanie.bindValue(":status", status);
         zapytanie.bindValue(":id", actual_id);
 
+        //obsługa błędu zapytania
         if (!zapytanie.exec())
         {
             QMessageBox::information(this, "Błąd", "Bład zmiany statusu");
             return;
         }
 
+        //informacje o wykonaniu zmiany
         QMessageBox::information(this, "Informacja", "Poprawnie zmieniono status zlecenia");
         return;
     }
@@ -150,24 +167,24 @@ void EditOrders::on_changeStatus_button_clicked()
     //zmiana ceny zlecenia
     if (ui->priceChange->isChecked())
     {
+        //pobranie ceny z formularza
         double cena = ui->priceInput->text().toDouble();
-        QSqlQuery zapytanie(m_db);
 
+        //przygotowanie zapytania w celu zmiany ceny zlecenia
+        QSqlQuery zapytanie(m_db);
         zapytanie.prepare("UPDATE zlecenia SET cena =:cena WHERE id =:id");
         zapytanie.bindValue(":cena", cena);
         zapytanie.bindValue(":id", actual_id);
 
+        //obsługa błędu zmiany statusu
         if (!zapytanie.exec())
         {
             QMessageBox::information(this, "Błąd", "Bład zmiany statusu");
             return;
         }
 
+        //informacja o poprawnym wykonaniu zmiany ceny
         QMessageBox::information(this, "Informacja", "Poprawnie zmieniono cene zlecenia");
     }
-
-
-
-
 }
 

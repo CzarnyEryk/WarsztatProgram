@@ -14,15 +14,17 @@ CreateOrder::CreateOrder(QWidget *parent)
     ui->year_input->setValidator(yearValidator);
     ui->year_input->setMaxLength(4);
     ui->year_input->setCursorPosition(0);
+
     //ustawienie maski dla pojemności silnika
     ui->volume_engine->setInputMask("9.9");
     ui->volume_engine->setCursorPosition(0);
 
-    //ustawienie walidacji danych dla vin
+    //ustawienie walidacji danych dla vin 17 znaków cyfry + duże litery
     QRegularExpression vinReg("^[A-HJ-NPR-Z0-9]{17}$");
     QValidator *vinValidator = new QRegularExpressionValidator(vinReg, this);
     ui->vin_input->setValidator(vinValidator);
 
+    //ustawienie punktu początkowego naszego formularza
     ui->mark_input->setFocus();
 }
 
@@ -36,6 +38,7 @@ CreateOrder::~CreateOrder()
 //funkcja do wrzucania danych do bazy
 void CreateOrder::putDataToDb()
 {
+    //Pobranie danych z formularza
     QString mark = ui->mark_input->text().toUpper().trimmed();
     QString model = ui->model_input->text().toUpper().trimmed();
     QString year = ui->year_input->text().trimmed();
@@ -45,9 +48,11 @@ void CreateOrder::putDataToDb()
     QString rej = ui->rej_input->text().toUpper().trimmed();
     QString desc = ui->desc_input->text().trimmed();
 
-    bool walidacja = true; // Flaga walidacji
+    //znacznik do poprawności walidacji danych
+    bool walidacja = true;
 
-    // Walidacja pola "mark"
+
+    //walidacja pola marka
     if (mark.isEmpty())
     {
         ui->mark_label->setStyleSheet("color: red");
@@ -58,7 +63,7 @@ void CreateOrder::putDataToDb()
         ui->mark_label->setStyleSheet("color: white");
     }
 
-    // Walidacja pola "model"
+    //walidacja pola model
     if (model.isEmpty())
     {
         ui->model_label->setStyleSheet("color: red");
@@ -70,7 +75,7 @@ void CreateOrder::putDataToDb()
         ui->model_label->setStyleSheet("color: white");
     }
 
-    // Walidacja pola "year"
+    //walidacja pola rok
     if (year.isEmpty() || year.toInt() < 1885 || year.toInt() > 2024)
     {
         ui->year_label->setStyleSheet("color: red");
@@ -82,7 +87,7 @@ void CreateOrder::putDataToDb()
         ui->year_label->setStyleSheet("color: white");
     }
 
-    // Walidacja pola "volume"
+    //walidacja pola pojemność
     if (volume.isEmpty() || volume.length() < 3 || volume[0].isSpace())
     {
         ui->volume_label->setStyleSheet("color: red");
@@ -94,7 +99,7 @@ void CreateOrder::putDataToDb()
         ui->volume_label->setStyleSheet("color: white");
     }
 
-    // Walidacja pola "type"
+    //walidacja pola typ silnika
     if (type.isEmpty())
     {
         ui->type_label->setStyleSheet("color: red");
@@ -106,7 +111,7 @@ void CreateOrder::putDataToDb()
         ui->type_label->setStyleSheet("color: white");
     }
 
-    // Walidacja pola "vin"
+    //walidacja pola vin
     QRegularExpression vinReg("^[A-HJ-NPR-Z0-9]{17}$");
     if (!vinReg.match(vin).hasMatch())
     {
@@ -119,7 +124,7 @@ void CreateOrder::putDataToDb()
         ui->vin_label->setStyleSheet("color: white");
     }
 
-    // Walidacja pola "rej"
+    //w alidacja pola numeru rejestracyjnego
     if (rej.isEmpty())
     {
         ui->rej_label->setStyleSheet("color: red");
@@ -131,7 +136,7 @@ void CreateOrder::putDataToDb()
         ui->rej_label->setStyleSheet("color: white");
     }
 
-    // Walidacja pola "desc"
+    //walidacja pola opisu
     if (desc.isEmpty())
     {
         ui->desc_label->setStyleSheet("color: red");
@@ -143,7 +148,7 @@ void CreateOrder::putDataToDb()
         ui->desc_label->setStyleSheet("color: white");
     }
 
-    // Jeżeli wszystkie pola są poprawne, zatwierdź
+    //jeżeli wszystkie pola są poprawne zatwierdź
     if (walidacja)
     {
         emit dataSubmit(mark, model, year, volume, type, vin, rej, desc);

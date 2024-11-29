@@ -133,7 +133,7 @@ void Login::configDatabase()
         QCoreApplication::quit();
     }
 
-    //połączenie z bazą danych i autentykacja
+    //połączenie z bazą danych i autoryzacja
 
     //obsługa błędu otwarcia bazy danych
     if(!db.open())

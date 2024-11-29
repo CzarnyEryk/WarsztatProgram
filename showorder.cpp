@@ -12,8 +12,10 @@ ShowOrder::ShowOrder(QSqlDatabase db, int id, QString rola, QWidget *parent)
     ,ui(new Ui::ShowOrder)
 {
     ui->setupUi(this);
+
     // Model bez filtrów
     model = new QSqlQueryModel(this);
+
     //Model z filtrami
     proxyModel = new QSortFilterProxyModel(this);
 
@@ -24,38 +26,49 @@ ShowOrder::ShowOrder(QSqlDatabase db, int id, QString rola, QWidget *parent)
         ui->label->setText("Zlecenia: ");
         ShowDataMechanik();
     }
+
     //wyświetlenie wszystkich zleceń zalogowaniego użytkownika
     else if (m_rola == "klient")
     {
         ShowDataClient();
     }
+
+    //brak użytkownika o podanej roli błąd danych w bazie
     else
     {
         QMessageBox::critical(this, "Błąd", "Błędna rola użytkownika");
-        QCoreApplication::exit();
+        QCoreApplication::exit(-1);
         return;
     }
 }
 
+ShowOrder::~ShowOrder()
+{
+    delete ui;
+}
 
+
+//PANEL KLIENTA ----------------------------------------------------------------------------------------------------------------------------------------------
 //pobranie oraz wyświetlenie danych z bazy dla zalogowanego użytkownika Panel Klienta
 void ShowOrder::ShowDataClient()
 {
     //przygotowanie połączenia z bazą
     QSqlQuery zapytanie(m_db);
 
-    //przygotowanie zapytania
+    //przygotowanie zapytania pobierającego wszystkie informacje na temat zlecenia klienta
     zapytanie.prepare("SELECT status, marka, model, rok_produkcji, pojemnosc_silnika, typ_silnika, vin, nr_rejestracyjny, opis, cena FROM zlecenia WHERE wlasciciel_zlecenia =:id");
 
     //zamiana danych na zmienne
     zapytanie.bindValue(":id", m_id);
 
+    //obsługa błędu zapytania
     if(!zapytanie.exec())
     {
-        QMessageBox::critical(this, "Błąd", "Bład pobierania danych z bazy");
+        QMessageBox::critical(this, "Błąd", "Bład pobierania zleceń z danych z bazy");
         return;
     }
 
+    //przekazanie danych do modelu
     model->setQuery(zapytanie);
 
     //ustawienie nagłówków tabelii
@@ -78,12 +91,17 @@ void ShowOrder::ShowDataClient()
 
     //dopasowanie rozmiaru kolumn
     ui->order_view->resizeColumnsToContents();
+    //dopasowanie rozmiaru ostatniej kolumny
     int lastColumnIndex = ui->order_view->model()->columnCount() - 1; // Ostatnia kolumna
+    //dynamiczne dopasowanie kolumn do zawartości okna
     ui->order_view->horizontalHeader()->setSectionResizeMode(lastColumnIndex, QHeaderView::Stretch);
 
+
+    //pobranie sumy wszytkich zleceń klienta
     zapytanie.prepare("SELECT SUM(cena) FROM zlecenia where wlasciciel_zlecenia =:id");
     zapytanie.bindValue(":id", m_id);
 
+    //obsługa błędu zapytania
     if(!zapytanie.exec())
     {
         //wyświetl informację o błędzie
@@ -91,7 +109,7 @@ void ShowOrder::ShowDataClient()
         return;
     }
 
-
+    //wyświetlenie informacji na temat sumy zamówień
     if (zapytanie.next())
     {
         float wartosc = zapytanie.value(0).toFloat();
@@ -100,12 +118,8 @@ void ShowOrder::ShowDataClient()
 
 }
 
-ShowOrder::~ShowOrder()
-{
-    delete ui;
-}
 
-
+//PANEL MECHANIKA ------------------------------------------------------------------------------------------------------------------------------------------------
 //pobranie wszystkich dostępnych zleceń w bazie danych Panel Mechanika
 void ShowOrder::ShowDataMechanik()
 {
@@ -122,6 +136,7 @@ void ShowOrder::ShowDataMechanik()
         return;
     }
 
+    //przekazanie danych do modelu
     model->setQuery(zapytanie);
     //ustawienie nagłówków tabelii
     model->setHeaderData(0, Qt::Horizontal, "Status:");
@@ -144,29 +159,89 @@ void ShowOrder::ShowDataMechanik()
 
     //dopasowanie rozmiarów kolumn
     ui->order_view->resizeColumnsToContents();
+    //dopasowanie rozmiaru kolumny
     int lastColumnIndex = ui->order_view->model()->columnCount() - 2; // Ostatnia kolumna
+    //automatyczne dopasowanie szerokości kolumn do okna
     ui->order_view->horizontalHeader()->setSectionResizeMode(lastColumnIndex, QHeaderView::Stretch);
 
+    //Pobranie sumy wartości zamówień
     zapytanie.prepare("SELECT SUM(cena) FROM zlecenia");
 
+    //obsługa błedu pobrania sumy
     if(!zapytanie.exec())
+    {
+        //wyświetl informację o błędzie
+        QMessageBox::critical(this, "Błąd", "Błąd pobierania sumy zleceń z bazy: \n" + zapytanie.lastError().text());
+        return;
+    }
+
+    //wyświetlenie całkowitej wartości zleceń
+    if (zapytanie.next())
+    {
+        float wartosc = zapytanie.value(0).toFloat();
+        ui->ordersValue_label->setText(QString("Całkowita wartość zleceń: %1 zł").arg(wartosc));
+    }
+
+    //pobranie średniej wartości zamówienia
+    zapytanie.prepare("SELECT AVG(cena) FROM zlecenia");
+
+    //obsługa błedu pobrania średniej wartości
+    if (!zapytanie.exec())
+    {
+        //wyświetl informację o błędzie
+        QMessageBox::critical(this, "Błąd", "Błąd pobierania średniej wartości z bazy: \n" + zapytanie.lastError().text());
+        return;
+    }
+
+    //wyświetlenie średniej wartości zleceń
+    if (zapytanie.next())
+    {
+        float srednia_wartosc = zapytanie.value(0).toFloat();
+        ui->ordersValueAvg_label->setText(QString("Średnia wartość zamówienia: %1 zł").arg(srednia_wartosc));
+
+    }
+
+    //pobranie minimalnej wartości zamówień
+    zapytanie.prepare("SELECT MIN(cena) FROM zlecenia");
+
+    //  //obsługa błedu pobrania wartości min
+    if (!zapytanie.exec())
+    {
+        //wyświetl informację o błędzie
+        QMessageBox::critical(this, "Błąd", "Błąd pobierania wartości min z bazy: \n" + zapytanie.lastError().text());
+        return;
+    }
+
+    //wyświetlenie wartości minimalnej zlecenia
+    if (zapytanie.next())
+    {
+        float minimalna_wartosc = zapytanie.value(0).toFloat();
+        ui->ordersValueMin_label->setText(QString("Minimalna wartość zamówienia: %1 zł").arg(minimalna_wartosc));
+
+    }
+
+    //pobranie maksymalnej wartości zamówienia
+    zapytanie.prepare("SELECT MAX(cena) FROM zlecenia");
+
+      //obsługa błedu pobrania wartości maksymalnej
+    if (!zapytanie.exec())
     {
         //wyświetl informację o błędzie
         QMessageBox::critical(this, "Błąd", "Błąd pobierania danych z bazy: \n" + zapytanie.lastError().text());
         return;
     }
 
-
+    //wyświetlenie informacji o maksymalnej wartości zamówienia
     if (zapytanie.next())
     {
-        float wartosc = zapytanie.value(0).toFloat();
-        ui->ordersValue_label->setText(QString("Całkowita wartość zleceń: %1 zł").arg(wartosc));
+        float max_wartosc = zapytanie.value(0).toFloat();
+        ui->ordersValueMax_label->setText(QString("Maksymalna wartość zamówienia: %1 zł").arg(max_wartosc));
+
     }
 }
 
 
-
-
+//ustawienie filtrowania
 void ShowOrder::on_useFilter_button_clicked()
 {
     // Pobranie danych do filtra rejestracji

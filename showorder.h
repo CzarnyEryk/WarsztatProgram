@@ -30,6 +30,7 @@ private slots:
     //funkcja do wyświetlenia wszystkich zleceń Panel Mechanika
     void ShowDataMechanik();
 
+    //obsługa filtra
     void on_useFilter_button_clicked();
 
 private:

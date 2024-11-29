@@ -21,6 +21,8 @@ void DeleteAccount::on_buttonBox_accepted()
 {
     //pobranie hasła z pola Hasło
     QString userInputPassword = ui->password_input->text();
+
+    //zapytanie do bazy danych w celu pobrania hasła użytkownika
     QSqlQuery zapytanie;
     zapytanie.prepare("SELECT haslo FROM uzytkownicy WHERE id= :id");
     zapytanie.bindValue(":id", m_id);
@@ -31,7 +33,7 @@ void DeleteAccount::on_buttonBox_accepted()
         //sprawdzenie czy zapytanie zwróciło dane
         if(zapytanie.next())
         {
-            //pobranie danych z bazy danych
+            //pobranie hasła użytkownika z bazy
             QString passwordUser = zapytanie.value("haslo").toString();
 
             //sprawdzenie zgodności haseł
@@ -52,7 +54,7 @@ void DeleteAccount::on_buttonBox_accepted()
                 else
                 {
                     //informacja o błędzie i zamknięcie aplikacji
-                    QMessageBox::critical(this, "Błąd", "Błąd aplikacji \n" + zapytanie.lastError().text());
+                    QMessageBox::critical(this, "Błąd", "Błąd usuwania konta \n" + zapytanie.lastError().text());
                 }
 
             }

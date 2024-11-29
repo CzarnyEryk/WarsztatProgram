@@ -82,12 +82,14 @@ void MainWindow::on_createOrder_clicked()
     //zmień status Panel Mechanika
     if (m_rola == "mechanik")
     {
+        //wyświetlenie okna do edycji zlecenia
         EditOrders *editOrder = new EditOrders(m_db, nullptr);
         editOrder->show();
     }
     //utwórz zlecenie Panel Klienta
     else
     {
+        //wyświetlenie formularza tworzenia zlecenia
         openCreateDialog();
     }
 }
@@ -99,6 +101,7 @@ void MainWindow::on_checkOrder_clicked()
     //sprawdzenie wszystkich dostępnych zleceń w bazie danych
     if (m_rola == "mechanik")
     {
+        //wyświetlenie wszystkich zleceń z bazy danych
         ShowOrder *showOrderMechanik = new ShowOrder(m_db, 0, m_rola, nullptr);
         showOrderMechanik->show();
     }
@@ -114,6 +117,7 @@ void MainWindow::on_checkOrder_clicked()
     else
     {
         QMessageBox::critical(this, "Błąd", "Brak użytkownika o podanej roli \n" + m_rola);
+        //zamknięcie aplikacji
         QCoreApplication::exit(-1);
     }
 }
@@ -125,6 +129,7 @@ void MainWindow::on_checkData_clicked()
     //sprawdzenie danych mechanika
     if (m_rola == "mechanik")
     {
+        //wyświetlenie okna z sprawdzeniem danych mechanika
         CheckUserData *mechanikDataWindow = new CheckUserData(m_db, m_id, nullptr);
         mechanikDataWindow->show();
     }
@@ -132,17 +137,19 @@ void MainWindow::on_checkData_clicked()
     //sprawdzenie danych klienta
     else
     {
+        //wyświetlenie okna do sprawdzenia danych użytkownika
         CheckUserData *userDataWindow = new CheckUserData(m_db, m_id, nullptr);
         userDataWindow->show();
     }
 }
 
-
+//usunięcie konta
 void MainWindow::on_deleteAcount_clicked()
 {
     //usunięcie konta
     if (m_rola == "klient")
     {
+        //wyświetlenie okna do usuwania konta użytkownika
         DeleteAccount *deleteAccount = new DeleteAccount(m_db, m_id, nullptr);
         deleteAccount->show();
     }

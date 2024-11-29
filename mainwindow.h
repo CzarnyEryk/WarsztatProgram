@@ -28,12 +28,16 @@ private slots:
     void getDataDialogUpploadDb(const QString &marka, const QString &model, const QString &rok, const QString &poj, const QString &typ, const QString &vin,
                        const QString &rej, const QString &opis);
 
+    //obsługa sprawdzenia zamówień
     void on_checkOrder_clicked();
 
+    //obsługa sprawdzenia danych użytkownika
     void on_checkData_clicked();
 
+    //obsługa usunięcia konta użytkownika
     void on_deleteAcount_clicked();
 
+    //obsluga wylogowania się
     void on_logout_clicked();
 
 private:
